@@ -1,3 +1,5 @@
+const path = require('path');
+
 const authController = {
 
     register: (req, res, next) => {
@@ -9,7 +11,7 @@ const authController = {
     },
 
     login: (req, res, next) => {
-        res.send('x');
+        res.sendFile(path.join(__dirname, '../views/login.html'));
     },
 
     processLogin: (req, res, next) => {
