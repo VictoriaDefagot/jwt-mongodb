@@ -6,10 +6,6 @@ const jwt = require('jsonwebtoken');
 
 const authController = {
 
-    register: (req, res, next) => {
-        res.json('register');
-    },
-
     processRegister: async (req, res, next) => {
 
         const { name, lastName, email, password } = req.body;
@@ -29,6 +25,27 @@ const authController = {
 
         console.log(user);
         res.json({auth: true, token});
+    },
+
+    profile: async (req, res, next) => {
+
+        const token = req.headers['x-access-token'];
+
+        if(!token){
+            return res.status(401).json({
+                auth: false,
+                message: 'No token provided'
+            });
+        };
+
+        const decoded = jwt.verify(token, config.secret);
+
+        const user = await User.findById(decoded.id, { password: 0 });
+        if(!user){
+            return res.status(404).send('No user found');
+        };
+
+        res.json(user);
     },
 
     login: (req, res, next) => {

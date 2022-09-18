@@ -4,7 +4,7 @@ const router = Router();
 const authController = require('../controllers/authController');
 
 
-router.get('/register', authController.register);
+router.get('/profile', authController.profile);
 
 router.post('/register', authController.processRegister);
 
